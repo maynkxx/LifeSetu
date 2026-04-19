@@ -1,58 +1,119 @@
-# LifeSetu - Disaster Resource Coordination System
+# LifeSetu — Disaster Resource Coordination System
 
-LifeSetu is a high-performance **Multi-tenant SaaS Platform** built for real-time disaster relief and resource coordination.
+## Overview
 
-## Technical Architecture
-* **Backend:** Node.js & Express.js with a modular controller-route-model architecture.
-* **Database:** MongoDB with Mongoose for flexible, geospatial data storage.
-* **Geospatial Features:** 2dsphere indexing for efficient proximity-based resource matching.
+LifeSetu is a backend system designed to efficiently coordinate resources during emergencies and disasters. It connects help requests with the nearest available resources using geospatial querying and a priority-based matching system.
 
-## Getting Started
+---
 
-### Prerequisites
-* Node.js (v14+)
-* MongoDB
+## Features
 
-### Setup
-1. Clone the repository
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Create a `.env` file from `.env.example`:
-   ```bash
-   cp .env.example .env
-   ```
-4. Start the development server:
-   ```bash
-   npm run dev
-   ```
+### Core Functionality
+
+* Geo-based Matching Engine
+
+  * Uses MongoDB 2dsphere indexing
+  * Finds nearest available resources in real-time
+
+* Request Lifecycle Management
+
+  * `pending → matched → in_progress → completed`
+
+* Resource Management
+
+  * Register and track availability of resources (ambulances, beds, etc.)
+
+---
+
+### Advanced Backend Features
+
+* Filtering (`?status=pending`, `?available=true`)
+* Pagination (`?page=1&limit=5`)
+* Sorting (`?sort=-createdAt`)
+* Optimized queries using MongoDB geospatial operators
+
+---
+
+## Tech Stack
+
+* Backend: Node.js, Express.js
+* Database: MongoDB (Mongoose)
+* Architecture: Controller → Service → Model (Layered Design)
+
+---
 
 ## API Endpoints
 
 ### Resources
-* `POST /resources` - Create a new resource.
-* `GET /resources` - Get all resources.
 
-### Requests
-* `POST /requests` - Create a new relief request.
-* `GET /requests` - Get all requests.
-* `GET /requests/:id/nearby-resources` - Find available resources of the same type near the request location.
+* `POST /resources` → Create resource
+* `GET /resources` → Get all resources
 
-## Data Models
-
-### Resource
-- `type`: String (e.g., "Ambulance", "Water", "Food")
-- `quantity`: Number
-- `location`: GeoJSON Point [lng, lat]
-- `available`: Boolean
-
-### Request
-- `type`: String
-- `severity`: Enum (low, medium, high)
-- `location`: GeoJSON Point [lng, lat]
-- `status`: Enum (pending, matched, in_progress, completed)
-- `assignedResourceId`: ObjectId (reference to Resource)
+  * Supports filtering, pagination, sorting
 
 ---
-Built with focus on speed and reliability for humanitarian relief.
+
+### Requests
+
+* `POST /requests` → Create request
+* `GET /requests` → Get all requests
+
+  * Supports filtering, pagination, sorting
+
+---
+
+### Matching
+
+* `POST /match/:requestId`
+
+  * Matches a request with the nearest available resource
+  * Updates resource availability and request status
+
+---
+
+## How to Run Locally
+
+```bash
+# Clone the repo
+git clone <your-repo-url>
+
+# Install dependencies
+npm install
+
+# Add environment variables
+PORT=5001
+MONGO_URI=your_mongodb_connection
+
+# Run server
+npm run dev
+```
+
+---
+
+## Key Concepts Implemented
+
+* Geospatial Queries (`$geoNear`, `$near`)
+* Service Layer Architecture (OOP-style separation)
+* REST API Design (filters, pagination, sorting)
+* State Management for real-world workflows
+
+---
+
+## Future Improvements
+
+* Real-time updates (WebSockets)
+* Authentication (JWT-based)
+* Frontend dashboard (React)
+* Multi-tenant support for NGOs
+
+---
+
+## Contribution
+
+This project is open for improvements and contributions.
+
+---
+
+## License
+
+MIT License
