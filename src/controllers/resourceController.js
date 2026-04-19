@@ -1,7 +1,7 @@
 const Resource = require('../models/Resource');
 
 // @desc    Create a new resource
-// @route   POST /api/resources
+// @route   POST /resources
 // @access  Public
 exports.createResource = async (req, res) => {
   try {
@@ -19,7 +19,7 @@ exports.createResource = async (req, res) => {
 };
 
 // @desc    Get all resources
-// @route   GET /api/resources
+// @route   GET /resources
 // @access  Public
 exports.getResources = async (req, res) => {
   try {
