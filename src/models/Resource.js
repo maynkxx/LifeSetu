@@ -15,13 +15,11 @@ const resourceSchema = new mongoose.Schema({
     type: {
       type: String,
       enum: ['Point'],
-      default: 'Point',
       required: true
     },
     coordinates: {
       type: [Number],
-      required: true,
-      index: '2dsphere'
+      required: true
     }
   },
   available: {
